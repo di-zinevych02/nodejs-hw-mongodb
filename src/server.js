@@ -49,7 +49,8 @@ export const setupServer = async () => {
 
             if (!contact) {
                 res.status(404).json({
-                    message: 'Contact not found' });
+                    message: 'Contact not found'
+                });
                     return;
             }
             
