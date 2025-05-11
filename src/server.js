@@ -22,6 +22,9 @@ export const setupServer = async () => {
             },
         }),
     );
+    app.get('/', (req, res) => {
+        res.json({message: "All work" });
+    });
 
         app.get('/contacts', async (req, res) => {
         try {
