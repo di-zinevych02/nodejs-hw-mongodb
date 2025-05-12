@@ -31,4 +31,5 @@ const contactsSchema = new Schema(
        timestamps: true, 
     },
 );
+
 export const ContactsCollection = model('Contact', contactsSchema); // collection name: contacts(зводить до нижнього регістру та у множині)
