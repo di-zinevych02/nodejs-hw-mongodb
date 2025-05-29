@@ -5,17 +5,35 @@ export const getAllContacts = async ({
     page = 1,
     perPage = 10,
   sortOrder = SORT_ORDER.ASC,
-  sortBy = '_id',
+    sortBy = '_id',
+  filter = {},
 }) => {
 
     const limit = perPage;
     const skip = (page - 1) * perPage;
 
     const contactsQuery = ContactsCollection.find();
-    const contactsCount = await ContactsCollection.find().merge(contactsQuery).countDocuments();
-    const contacts = await contactsQuery.skip(skip).limit(limit).exec();
-    const paginationData = calculatePaginationData(contactsCount, perPage, page);
+//оператор порівняння equals повертає документи, де значення поля дорівнює заданому значеню isFavourite
+    if (filter.isFavourite) {
+        contactsQuery.where('isFavourite').equals(filter.isFavourite);
+    }
+    if (filter.contactType) {
+        contactsQuery.where('contactType').equals(filter.contactType);
 
+    }
+
+    
+    //const contactsCount = await ContactsCollection.find().merge(contactsQuery).countDocuments();
+    //const contacts = await contactsQuery.skip(skip).limit(limit).exec();
+    
+    const [contactsCount, contacts] = await Promise.all([
+        ContactsCollection.find().merge(contactsQuery).countDocuments(),
+        contactsQuery.skip(skip).limit(limit).sort({ [sortBy]: sortOrder }).exec(),
+    ]); 
+//У  цій рефакторингованій версії коду, замість послідовного виконання, обидві операції запускаються одночасно.
+//  Promise.all приймає масив промісів і повертає новий проміс, який виконується, коли всі проміси в масиві успішно виконані. 
+// Результатом є масив результатів кожного з промісів у тому порядку, в якому вони були передані.
+        const paginationData = calculatePaginationData(contactsCount, perPage, page);
     return {
         data: contacts,
         ...paginationData,
