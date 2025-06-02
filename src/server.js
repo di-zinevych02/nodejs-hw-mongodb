@@ -5,7 +5,7 @@ import cors from 'cors';
 import { getEnvVar } from './utils/getEnvVar.js';
 import { errorHandler } from './/midllewares/errorHandler.js';
 import { notFoundHandler } from './/midllewares/notFoundHandler.js';
-import contactsRouter from './routers/contacts.js';
+import router from './routers/index.js';
 
 
 // Читаємо змінну оточення PORT
@@ -25,7 +25,7 @@ export const setupServer = async () => {
             },
         }),
     );
-    app.use(contactsRouter);
+    app.use(router);
     app.use(notFoundHandler);
     app.use(errorHandler);
     // app.get('/', (req, res) => {
