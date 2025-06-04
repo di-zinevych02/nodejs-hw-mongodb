@@ -1,7 +1,10 @@
 import { registerUser } from "../services/auth.js";
 import { logoutUser } from '../services/auth.js';
 import { ONE_DAY } from '../constants/index.js';
-import {loginUser} from "../services/auth.js";
+import { loginUser } from "../services/auth.js";
+import { refreshUsersSession } from '../services/auth.js';
+
+
 export const registerUserController = async (req, res) => {
     const user = await registerUser(req.body);
     res.status(201).json({
@@ -45,3 +48,38 @@ export const logoutUserController = async (req, res) => {
 
     res.status(204).send();
 };
+
+//refreshToken зберігається як http-only cookie, що означає,
+//  що він доступний тільки через HTTP-запити і не може бути доступним через JavaScript на стороні клієнта. 
+// Він має термін дії один день.
+const setupSession = (res, session) => {
+    res.cookie('refreshToken', session.refreshToken, {
+        httpOnly: true,
+        expires: new Date(Date.now() + ONE_DAY),
+    });
+    res.cookie('sessionId', session._id, {
+        httpOnly: true,
+        expires: new Date(Date.now() + ONE_DAY),
+    });
+};
+//виконує процес оновлення сесії користувача і взаємодію з клієнтом через HTTP
+export const refreshUserSessionController = async (req, res) => {
+    //refreshUsersSession виконує процес оновлення сесії і повертає об'єкт нової сесії.
+    const session = await refreshUsersSession({
+        sessionId: req.cookies.sessionId,
+        refreshToken: req.cookies.refreshToken,
+
+    });
+    setupSession(res, session);
+    res.json({
+        status: 200,
+        message: 'Successfully refreshed a session!',
+        data: {
+            accessToken: session.accessToken,
+        },
+    });
+};
+//Таким чином, функція refreshUserSessionController обробляє HTTP-запит на оновлення сесії користувача, 
+// викликає функцію для оновлення сесії refreshUsersSession, встановлює нові куки для збереження токенів та ідентифікатора сесії, 
+// і відправляє клієнту відповідь з інформацією про успішне оновлення сесії та новим токеном доступу.
+

@@ -44,3 +44,42 @@ export const loginUser = async (payload) => {
 export const logoutUser = async (sessionId) => {
     await SessionsCollection.deleteOne({ _id: sessionId });
 };
+const createSession = () => {
+    const accessToken = randomBytes(30).toString('base64');
+    const refreshToken = randomBytes(30).toString('base64');
+    return {
+        accessToken,
+        refreshToken,
+        accessTokenValidUntil: new Date(Date.now() + FIFTEEN_MINUTES),
+        refreshTokenValidUntil: new Date(Date.now() + ONE_DAY),
+    };
+};
+//виконує процес оновлення сесії користувача і взаємодію з базою даних через асинхронні запити. 
+export const refreshUsersSession = async ({
+    sessionId, refreshToken
+}) => {
+    const session = await SessionsCollection.findOne({
+        _id: sessionId,
+        refreshToken,
+    });
+    if (!session) {
+        throw createHttpError(401, 'Session not found');
+    }
+//Якщо поточна дата перевищує значення refreshTokenValidUntil, це означає, що токен сесії прострочений.
+    const isSessionTokenExpired = new Date() > new Date(session.refreshTokenValidUntil);
+    if (isSessionTokenExpired) {
+        throw createHttpError(401, 'Session token expired');
+    }
+    //Функція викликає createSession, яка генерує нові accessToken і refreshToken, а також встановлює терміни їхньої дії.
+    const newSession = createSession();
+    //createSession повертає об'єкт з новими токенами і термінами їхньої дії.
+    await SessionsCollection.deleteOne({ _id: sessionId, refreshToken });
+    //Функція створює нову сесію в колекції SessionsCollection, 
+    // використовуючи ідентифікатор користувача з існуючої сесії та дані нової сесії, згенеровані функцією createSession.
+    return await SessionsCollection.create({
+        userId: session.userId,
+        ...newSession,
+    });
+};
+//Таким чином, функція refreshUsersSession обробляє запит на оновлення сесії користувача, 
+// перевіряє наявність і термін дії існуючої сесії, генерує нову сесію та зберігає її в базі даних.
