@@ -6,13 +6,14 @@ export const getAllContacts = async ({
     perPage = 10,
   sortOrder = SORT_ORDER.ASC,
     sortBy = '_id',
-  filter = {},
+    filter = {},
+  userId,
 }) => {
 
     const limit = perPage;
     const skip = (page - 1) * perPage;
 
-    const contactsQuery = ContactsCollection.find();
+    const contactsQuery = ContactsCollection.find({ userId });
 //оператор порівняння equals повертає документи, де значення поля дорівнює заданому значеню isFavourite
     if (filter.isFavourite) {
         contactsQuery.where('isFavourite').equals(filter.isFavourite);
@@ -39,8 +40,8 @@ export const getAllContacts = async ({
         ...paginationData,
     };
 };
-export const getContactById = async (contactId) => {
-    const contact = await ContactsCollection.findById(contactId);
+export const getContactById = async (contactId, userId) => {
+    const contact = await ContactsCollection.findOne({ _id: contactId, userId });
     return contact;
 };
 //Метод find() моделі ContactsCollection — це вбудований метод Mongoose для пошуку документів у MongoDB. 
@@ -55,11 +56,11 @@ export const createContact = async (payload) => {
     const contact = await ContactsCollection.create(payload);
     return contact;
 };
-export const updateContact = async (contactId, payload) => {
-    const contact = await ContactsCollection.findByIdAndUpdate(contactId, payload, { new: true });
+export const updateContact = async (contactId, userId, payload) => {
+    const contact = await ContactsCollection.findOneAndUpdate({ _id: contactId, userId }, payload, { new: true });
     return contact;
 };
-export const deleteContact = async (contactId) => {
-    const contact = await ContactsCollection.findByIdAndDelete(contactId);
+export const deleteContact = async (contactId, userId) => {
+    const contact = await ContactsCollection.findOneAndDelete({ _id: contactId, userId });
     return contact;
 };
