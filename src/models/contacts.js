@@ -28,6 +28,7 @@ const contactsSchema = new Schema(
             ref: 'User',
       required: true,
         },
+        photo: { type: String },
     },
     {
         //Для автоматичного створення полів createdAt та updatedAt, 
