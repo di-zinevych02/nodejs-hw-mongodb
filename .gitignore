@@ -134,5 +134,7 @@ dist
 .yarn/build-state.yml
 .yarn/install-state.gz
 .pnp.*
-/src/temp/*
-!/src/temp/.gitkeep
+/temp/*
+!/temp/.gitkeep
+/uploads/*
+!/uploads/.gitkeep
