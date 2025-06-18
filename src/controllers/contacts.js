@@ -28,7 +28,7 @@ export const getContactByIdController = async (req, res) => {
     const contact = await getContactById(contactId, req.user.id);
     if (!contact) {
         //створюємо та налаштовуємо помилку
-        throw createHttpError(404, 'Contact not found');
+        throw createHttpError(404, `Contact with id ${contactId} not found`);
     }
     // замість   if (!contact) {
     //             res.status(404).json({
