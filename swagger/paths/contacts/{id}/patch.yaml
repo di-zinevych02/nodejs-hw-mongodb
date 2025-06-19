@@ -26,31 +26,31 @@ requestBody:
             type: string
             example: +38434788578955
           email:
-    description: Contact's email
-    type: string
-    example: dianazinevy@email.com
-  isFavourite:
-    description: Whether is contact is favourite
-    type: boolean
-    example: false
-    default: false
-  contactType:
-    description: Contact's type
-    type: string
-    enum: ['work', 'home', 'personal']
-    example: work
-    default: personal
-  userId:
-    description: Contact's user id
-    type: string
-    example: 684ac58b8fb1fcb5edf85e24
-  photo:
-    description: Link to contact's photo
-    type: string
-    format: binary
-    example: https://res.cloudinary.com/dkfmkxxno/image/upload/v1750185563/qd7klnaxwdblue8hienz.png
-    default: null
-    responses:
+            description: Contact's email
+            type: string
+            example: dianazinevy@email.com
+          isFavourite:
+            description: Whether is contact is favourite
+            type: boolean
+            example: false
+            default: false
+          contactType:
+            description: Contact's type
+            type: string
+            enum: ['work', 'home', 'personal']
+            example: work
+            default: personal
+          userId:
+            description: Contact's user id
+            type: string
+            example: 684ac58b8fb1fcb5edf85e24
+          photo:
+            description: Link to contact's photo
+            type: string
+            format: binary
+            example: https://res.cloudinary.com/dkfmkxxno/image/upload/v1750185563/qd7klnaxwdblue8hienz.png
+            default: null
+responses:
   '200':
     description: 'Successfully patched a contact!'
     content:

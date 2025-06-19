@@ -5,7 +5,6 @@ import cors from 'cors';
 import { getEnvVar } from './utils/getEnvVar.js';
 import { errorHandler } from './/midllewares/errorHandler.js';
 import { notFoundHandler } from './/midllewares/notFoundHandler.js';
-
 import router from './routers/index.js';
 
 

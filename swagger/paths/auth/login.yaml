@@ -15,12 +15,12 @@ requestBody:
         properties:
           email:
             description: User's email
-    type: string
-    example: dianazinevy@email.com
-  password:
-    description: User's password
-    type: string
-    example: 12324355
+            type: string
+            example: dianazinevy@email.com
+          password:
+            description: User's password
+            type: string
+            example: 12324355
 responses:
   '200':
     description: Login user
@@ -41,8 +41,8 @@ responses:
               example: Successfully logged in an user!
             data:
               type: object
-              $ref: '../../conponents/schemas/user.yaml'
+              $ref: ../../components/schemas/user.yaml
   '401':
-    $ref: '../../conponents/responses/401.yaml'
+    $ref: ../../components/responses/401.yaml
   '500':
-    $ref: '../../conponents/responses/500.yaml'
+    $ref: ../../components/responses/500.yaml

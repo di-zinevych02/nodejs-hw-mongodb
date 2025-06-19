@@ -7,36 +7,35 @@ info:
     url: http://www.apache.org/licenses/LICENSE-2.0.html
   description: This is a documentation of contacts app
 tags:
-  # теги, що ви будете використовувати
   - name: Contacts
     description: Operations about contacts.
   - name: Auth
     description: Auth operations.
 servers:
-  - url: http://localhost:3000
-  - url: #посилання на задеплоєний сайт
+  - url: http://localhost:3000/api-docs
+  - url: https://contacts-app-nodejs.onrender.com
 paths:
   /contacts:
     get:
-      $ref: '../swagger/paths/contacts/get.yaml'
+      $ref: ../swagger/paths/contacts/get.yaml
     post:
-      $ref: '../swagger/paths/contacts/post.yaml'
+      $ref: ../swagger/paths/contacts/post.yaml
   /contacts/{id}:
     get:
-      $ref: '../swagger/paths/contacts/{id}/get.yaml'
-      patch:
-        $ref: '../swagger/paths/contacts/{id}/patch.yaml'
-        delete:
-        $ref: '../swagger/paths/contacts/{id}/delete.yaml'
+      $ref: ../swagger/paths/contacts/{id}/get.yaml
+    patch:
+      $ref: ../swagger/paths/contacts/{id}/patch.yaml
+    delete:
+      $ref: ../swagger/paths/contacts/{id}/delete.yaml
   /auth/register:
     post:
-      $ref: '../swagger/path/auth/register.yaml'
+      $ref: ../swagger/paths/auth/register.yaml
   /auth/login:
     post:
-      $ref: '../swagger/path/auth/login.yaml'
+      $ref: ../swagger/paths/auth/login.yaml
   /auth/logout:
     post:
-      $ref: '../swagger/path/auth/logout.yaml'
+      $ref: ../swagger/paths/auth/logout.yaml
 components:
   securitySchemes:
     bearerAuth:

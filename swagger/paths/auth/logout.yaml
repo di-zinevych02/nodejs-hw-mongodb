@@ -8,6 +8,6 @@ responses:
   '204':
     description: User logout
   '404':
-    $ref: '../../conponents/responses/404.yaml'
+    $ref: ../../components/responses/404.yaml
   '500':
-    $ref: '../../conponents/responses/500.yaml'
+    $ref: ../../components/responses/500.yaml
