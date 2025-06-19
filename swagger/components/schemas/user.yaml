@@ -1,0 +1,29 @@
+type: object
+required:
+  - _id
+  - name
+  - email
+  - password
+properties:
+  _id:
+    description: User's id
+    type: string
+    example: 6851b65ce2e27b777f8a62ce
+  name:
+    description: User's name
+    type: string
+    example: Dianazinevy
+  password:
+    description: User's password
+    type: string
+    example: 12324355
+  createdAt:
+    description: User's creation date
+    type: string
+    format: date-time
+    example: 2023-10-01T12:00:00Z
+  updatedAt:
+    description: User's update date
+    type: string
+    format: date-time
+    example: 2023-10-02T12:00:00Z
