@@ -24,14 +24,15 @@ const contactsSchema = new Schema(
             default: 'personal',
         },
         userId: {
+            // зберігає _id користувача
             type: Schema.Types.ObjectId, 
+            // вказує, до якої моделі належить цей _id
             ref: 'User',
-
         },
         photo: {
             type: String,
-             default: null,
-         },
+            default: null,
+        },
     },
     {
         //Для автоматичного створення полів createdAt та updatedAt, 
